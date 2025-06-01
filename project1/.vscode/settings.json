@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.resourceFilters": [
+        "icons/**" // 将icons目录标记为资源目录
+    ]
+}
