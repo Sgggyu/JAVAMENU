@@ -5,13 +5,19 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class LeftPnl extends JPanel {
+public class CLeftPnl0433 extends JPanel {
+    // 菜单监听器接口，用于处理菜单点击事件
+     public interface MenuListener {
+        void onMenuSelected(int index); //这个方法由于控制的是对象外部，所以需要在MainWindow中实现
+    }
+    //成员变量
     private JButton[] menuButtons;
     private int selectedIndex = 0;
-
-    public LeftPnl() {
+    private MenuListener menuListener;
+    //初始化左侧面板
+    public CLeftPnl0433() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        setBackground(new Color(240, 240, 240));
+        setBackground(new Color(240, 240, 242));
         setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 10)); // 四周内边距
         setPreferredSize(new Dimension(200, 750));
         // 添加标题
@@ -22,7 +28,7 @@ public class LeftPnl extends JPanel {
         add(createAuthor());
         add(Box.createVerticalStrut(60)); // 标题与菜单间距
 
-        // 初始化菜单项
+        // 初始化菜单项，后续扩展内容可以添加此处
         String[] menuItems = {"首页", "设置", "帮助"};
         Icon[] icons = {
                 loadScaledIcon("project1/icons/home.png", 24, 24),
@@ -41,7 +47,9 @@ public class LeftPnl extends JPanel {
         add(Box.createVerticalGlue()); // 将菜单项顶置
         setSelected(0); // 默认选中第一项
     }
-
+     public void setMenuListener(MenuListener listener) {
+        this.menuListener = listener;
+    }
     private JLabel createTitleLabel() {
         JLabel title = new JLabel("功能菜单");
         title.setFont(new Font("微软雅黑", Font.BOLD, 36));
@@ -125,6 +133,9 @@ public class LeftPnl extends JPanel {
                 new SideBorder(new Color(67, 133, 244), 3), 
                 BorderFactory.createEmptyBorder(10, 10, 10, 20)
         ));
+        if (menuListener != null) {
+            menuListener.onMenuSelected(index); // 通知监听器，将index值传递给MainWindow
+        }
     }
 
     // 加载缩放后的图标（需要替换为实际图标路径）
